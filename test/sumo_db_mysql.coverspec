@@ -1,0 +1,4 @@
+%% Specific modules to include in cover.
+{
+ incl_mods, [sumo_backend_mysql, sumo_store_mysql]
+}.
