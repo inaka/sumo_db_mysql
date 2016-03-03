@@ -21,7 +21,7 @@ all() -> [check_overrun_handler].
 
 -spec init_per_suite(config()) -> config().
 init_per_suite(Config) ->
-  ok = test_utils:start_apps(),
+  {ok, _} = application:ensure_all_started(sumo_db_mysql),
   Config.
 
 -spec end_per_suite(config()) -> config().
