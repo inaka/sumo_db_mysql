@@ -1,5 +1,6 @@
 {application, sumo_db_mysql, [
   {description, "SumoDB MySQL Adapter"},
+  {vsn, "0.0.1"},
   {id, "sumo_db_mysql"},
   {registered, []},
   {applications, [
