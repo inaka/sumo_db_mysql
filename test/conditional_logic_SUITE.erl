@@ -43,9 +43,9 @@ all() ->
 -spec init_per_suite(config()) -> config().
 init_per_suite(Config) ->
   {ok, _} = application:ensure_all_started(sumo_db_mysql),
-  Module = sumo_test_people_mysql,
-  sumo_conditionals_test_helper:init_store(Module),
-  [{module, Module}, {people_with_like, true} | Config].
+  Name = people,
+  sumo_conditionals_test_helper:init_store(Name),
+  [{name, Name}, {people_with_like, true} | Config].
 
 -spec end_per_suite(config()) -> config().
 end_per_suite(Config) ->

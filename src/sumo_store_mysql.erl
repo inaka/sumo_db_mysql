@@ -314,9 +314,6 @@ create_column(Name, integer, Attrs) ->
 create_column(Name, float, Attrs) ->
   [escape(Name), " FLOAT ", create_column_options(Attrs)];
 
-create_column(Name, text, Attrs) ->
-  [escape(Name), " TEXT ", create_column_options(Attrs)];
-
 create_column(Name, binary, Attrs) ->
   [escape(Name), " BLOB ", create_column_options(Attrs)];
 
@@ -327,7 +324,18 @@ create_column(Name, date, Attrs) ->
   [escape(Name), " DATE ", create_column_options(Attrs)];
 
 create_column(Name, datetime, Attrs) ->
-  [escape(Name), " DATETIME ", create_column_options(Attrs)].
+  [escape(Name), " DATETIME ", create_column_options(Attrs)];
+
+create_column(Name, boolean, Attrs) ->
+  [escape(Name), " BOOLEAN ", create_column_options(Attrs)];
+
+create_column(Name, custom, Attrs) ->
+  case lists:keyfind(type, 1, Attrs) of
+    {type, text} ->
+      [escape(Name), " TEXT ", create_column_options(Attrs)];
+    _ ->
+      create_column(Name, binary, Attrs)
+  end.
 
 create_column_options(Attrs) ->
   lists:filter(fun(T) -> is_list(T) end, lists:map(
@@ -487,27 +495,45 @@ hash(Clause) ->
 
 %% @private
 sleep(Doc) ->
-  sumo_utils:doc_transform(fun sleep_fun/1, Doc).
+  sumo_utils:doc_transform(fun sleep_fun/4, Doc).
 
-%% @private
-sleep_fun({_, _, undefined}) ->
+sleep_fun(_, _, undefined, _) ->
   null;
-sleep_fun({_, _, FieldValue}) ->
+sleep_fun(boolean, _, false, _) ->
+  0;
+sleep_fun(boolean, _, true, _) ->
+  1;
+sleep_fun(custom, _, FieldValue, Attrs) ->
+  case lists:keyfind(type, 1, Attrs) of
+    {type, text} -> FieldValue;
+    _ -> term_to_binary(FieldValue)
+  end;
+sleep_fun(_, _, FieldValue, _) ->
   FieldValue.
 
 %% @private
 wakeup(Doc) ->
-  sumo_utils:doc_transform(fun wakeup_fun/1, Doc).
+  sumo_utils:doc_transform(fun wakeup_fun/4, Doc).
 
-%% @private
-wakeup_fun({float, _, 0}) ->
-  0.0;
 %% Matches `text' type fields that were saved with `undefined' value and
 %% avoids being processed by the next clause that will return it as a
 %% binary (`<<"undefined">>') instead of atom as expected.
-wakeup_fun({_, _, undefined}) ->
+wakeup_fun(_, _, undefined, _) ->
   undefined;
-wakeup_fun({string, _, FieldValue}) ->
+wakeup_fun(float, _, 0, _) ->
+  0.0;
+wakeup_fun(boolean, _, 0, _) ->
+  false;
+wakeup_fun(boolean, _, 1, _) ->
+  true;
+wakeup_fun(string, _, FieldValue, _) ->
   sumo_utils:to_bin(FieldValue);
-wakeup_fun({_, _, FieldValue}) ->
+wakeup_fun(custom, FieldName, FieldValue, Attrs) ->
+  case lists:keyfind(type, 1, Attrs) of
+    {type, text} ->
+      wakeup_fun(string, FieldName, FieldValue, Attrs);
+    _ ->
+      binary_to_term(FieldValue)
+  end;
+wakeup_fun(_, _, FieldValue, _) ->
   FieldValue.

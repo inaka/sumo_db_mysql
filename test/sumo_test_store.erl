@@ -49,7 +49,23 @@
               non_neg_integer(), state()) ->
                  sumo_store:result([sumo_internal:doc()], state()).
 -spec create_schema(sumo:schema(), state()) -> sumo_store:result(state()).
-
+-spec execute(atom() | list(), state()) -> term().
+-spec execute(atom(), list(), state()) -> term().
+-spec find_all(sumo:schema_name(), state()) ->
+  sumo_store:result([sumo_internal:doc()], state()).
+-spec find_all(sumo:schema_name(),
+               term(),
+               non_neg_integer(),
+               non_neg_integer(),
+               state()) ->
+  sumo_store:result([sumo_internal:doc()], state()).
+-spec find_by(sumo:schema_name(),
+              sumo:conditions(),
+              term(),
+              non_neg_integer(),
+              non_neg_integer(),
+              state()) ->
+  sumo_store:result([sumo_internal:doc()], state()).
 init(Options) ->
   sumo_store_mysql:init(Options).
 
