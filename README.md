@@ -72,7 +72,7 @@ Within the console:
 
 % from here you can start using sumo
 
-> sumo:find_all(sumo_test_people_mysql).
+> sumo:find_all(people).
 []
 ```
 

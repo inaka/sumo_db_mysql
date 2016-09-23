@@ -11,5 +11,8 @@
     sumo_db
   ]},
   {modules, []},
-  {mod, {sumo_db_mysql, []}}
+  {licenses, ["Apache 2.0"]},
+  {links, [{"Github", "https://github.com/inaka/sumo_db_mysql"}]},
+  {mod, {sumo_db_mysql, []}},
+  {build_tools, ["rebar3"]}
 ]}.

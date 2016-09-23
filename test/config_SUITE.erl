@@ -32,5 +32,6 @@ end_per_suite(Config) ->
 %%% Exported Tests Functions
 %%%=============================================================================
 
+-spec check_overrun_handler(config()) -> term().
 check_overrun_handler(_Config) ->
-  sumo:call(sumo_test_people_mysql, takes_too_long, []).
+  sumo:call(people, takes_too_long, []).
