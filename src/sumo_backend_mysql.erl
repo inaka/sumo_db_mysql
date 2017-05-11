@@ -30,36 +30,36 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%% Public API.
--export(
-  [ get_pool/1
-  ]).
+-export([
+  get_pool/1
+]).
 
 %%% Exports for sumo_backend
--export(
-  [ start_link/2
-  ]).
+-export([
+  start_link/2
+]).
 
 %%% Exports for gen_server
--export(
-  [ init/1
-  , handle_call/3
-  , handle_cast/2
-  , handle_info/2
-  , terminate/2
-  , code_change/3
-  ]).
+-export([
+  init/1,
+  handle_call/3,
+  handle_cast/2,
+  handle_info/2,
+  terminate/2,
+  code_change/3
+]).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Types.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
--record(state, {
-  pool = undefined :: atom()
-}).
+
+-record(state, {pool = undefined :: atom()}).
 -type state() :: #state{}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% External API.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 -spec start_link(atom(), proplists:proplist()) -> {ok, pid()}|term().
 start_link(Name, Options) ->
   gen_server:start_link({local, Name}, ?MODULE, Options, []).

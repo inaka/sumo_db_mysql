@@ -42,15 +42,16 @@ all() ->
 
 -spec init_per_suite(config()) -> config().
 init_per_suite(Config) ->
-  {ok, _} = application:ensure_all_started(sumo_db_mysql),
+  ok = test_utils:start_apps(),
   [{name, people} | Config].
 
 -spec init_per_testcase(atom(), config()) -> config().
 init_per_testcase(_, Config) ->
   {_, Name} = lists:keyfind(name, 1, Config),
-  sumo_basic_test_helper:init_store(Name),
+  ok = sumo_basic_test_helper:init_store(Name),
   Config.
 
 -spec end_per_suite(config()) -> config().
 end_per_suite(Config) ->
+  ok = test_utils:stop_apps(),
   Config.
