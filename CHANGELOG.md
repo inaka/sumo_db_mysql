@@ -1,6 +1,18 @@
 # Change Log
 
-## [0.0.1](https://github.com/inaka/sumo_db_mysql/tree/0.0.1) (2016-09-23)
+## [0.0.2](https://github.com/inaka/sumo_db_mysql/tree/0.0.2) (2017-05-17)
+[Full Changelog](https://github.com/inaka/sumo_db_mysql/compare/staging...0.0.2)
+
+**Closed issues:**
+
+- Update README.md [\#14](https://github.com/inaka/sumo_db_mysql/issues/14)
+- Version Bump to 0.0.1 [\#12](https://github.com/inaka/sumo_db_mysql/issues/12)
+
+**Merged pull requests:**
+
+- \[Close \#14\] update readme [\#17](https://github.com/inaka/sumo_db_mysql/pull/17) ([Euen](https://github.com/Euen))
+
+## [staging](https://github.com/inaka/sumo_db_mysql/tree/staging) (2016-09-23)
 **Closed issues:**
 
 - Move from erlang.mk to rebar3 [\#9](https://github.com/inaka/sumo_db_mysql/issues/9)
@@ -9,6 +21,7 @@
 
 **Merged pull requests:**
 
+- version bump to 0.0.1 [\#13](https://github.com/inaka/sumo_db_mysql/pull/13) ([Euen](https://github.com/Euen))
 - Euen.9.rebar3 [\#11](https://github.com/inaka/sumo_db_mysql/pull/11) ([Euen](https://github.com/Euen))
 - \[\#quick\] remove warnings\_as\_errors and untyped record [\#8](https://github.com/inaka/sumo_db_mysql/pull/8) ([elbrujohalcon](https://github.com/elbrujohalcon))
 - Add rebar.config [\#7](https://github.com/inaka/sumo_db_mysql/pull/7) ([elbrujohalcon](https://github.com/elbrujohalcon))
