@@ -42,7 +42,7 @@ Using **Rebar**:
     as example.
     > NOTE: if you use this entity, you'll need to include `mixer` to the dependencies list
 
- 3. Provide the configuration file, e.g.: [test.config](./tests/test.config).
+ 3. Provide the configuration file, e.g.: [test.config](./test/test.config).
     > NOTE: if you use this config, you'll need to change `sumo_test_store` to `sumo_store_mysql`
 
  4. Now you can run your app and start using `sumo` from there.
