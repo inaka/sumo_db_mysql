@@ -292,13 +292,11 @@ fetch(DocName, Id, State) ->
   Response :: sumo_store:result(non_neg_integer(), state()).
 count(DocName, State) ->
   StatementName = prepare(DocName, count, fun() ->
-    ["SELECT COUNT(*) FROM ", escape(DocName)]
+    ["SELECT COUNT(*) as count FROM ", escape(DocName)]
   end),
   case execute(StatementName, State) of
-    #result_packet{rows = [Result]} ->
-      %% TODO: check if there is a better way to extract the result count
-      [[_, [Value], _]] = io_lib:format("~w", [Result]),
-      {ok, list_to_integer(Value), State};
+    #result_packet{rows = [[Value]]} ->
+      {ok, Value, State};
     Error ->
       evaluate_execute_result(Error, State)
   end.
