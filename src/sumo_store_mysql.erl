@@ -38,7 +38,7 @@
 -export([prepare/3, execute/2, execute/3]).
 -export([just_execute/2, just_execute/3, get_docs/3, get_docs/4]).
 -export([find_all/2, find_all/5, find_by/3, find_by/5, find_by/6]).
--export([fetch/3, count/2]).
+-export([fetch/3, count/2, count_by/3]).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Types.
@@ -298,7 +298,43 @@ count(DocName, State) ->
     #result_packet{rows = [Result]} ->
       %% TODO: check if there is a better way to extract the result count
       [[_, [Value], _]] = io_lib:format("~w", [Result]),
-    {ok, list_to_integer(Value), State};
+      {ok, list_to_integer(Value), State};
+    Error ->
+      evaluate_execute_result(Error, State)
+  end.
+
+-spec count_by(DocName, Conditions, State) -> Response when
+  DocName    :: sumo:schema_name(),
+  Conditions :: sumo:conditions(),
+  State      :: state(),
+  Response   :: sumo_store:result(non_neg_integer(), state()).
+count_by(DocName, [], State) ->
+  count(DocName, State);
+count_by(DocName, Conditions, State) ->
+  {Values, CleanConditions} = sumo_sql_builder:values_conditions(Conditions),
+  Clauses = sumo_sql_builder:where_clause(CleanConditions),
+
+  WhereClause = case Conditions of
+    [] -> "";
+    _  -> [" WHERE ", lists:flatten(Clauses)]
+  end,
+
+  PreName = list_to_atom("count_by_" ++ hash(Clauses)),
+
+  Fun = fun() ->
+    [
+      "SELECT COUNT(1) FROM ",
+      escape(DocName),
+      WhereClause
+    ]
+  end,
+
+  StatementName = prepare(DocName, PreName, Fun),
+
+  case execute(StatementName, Values, State) of
+    #result_packet{rows = [Result]} ->
+      [[_, [Value], _]] = io_lib:format("~w", [Result]),
+      {ok, list_to_integer(Value), State};
     Error ->
       evaluate_execute_result(Error, State)
   end.

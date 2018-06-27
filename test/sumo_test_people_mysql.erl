@@ -51,8 +51,10 @@ sumo_schema() ->
      sumo:new_field(description,   custom,  [{type, text}]),
      sumo:new_field(profile_image, binary),
      sumo:new_field(is_blocked,    boolean),
+     sumo:new_field(status,        string, [{length, 255}]),
      sumo:new_field(weird_field1,  custom, [{type, term}]),
      sumo:new_field(weird_field2,  custom, [{type, list}]),
-     sumo:new_field(weird_field3,  custom, [{type, map}])
+     sumo:new_field(weird_field3,  custom, [{type, map}]),
+     sumo:new_field(missing,       boolean)
     ],
   sumo:new_schema(people, Fields).

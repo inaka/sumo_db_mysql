@@ -21,7 +21,8 @@
      find_by/6,
      persist/2,
      fetch/3,
-     count/2
+     count/2,
+     count_by/3
    ]}
  ]).
 
