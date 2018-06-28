@@ -14,4 +14,7 @@ logs/
 sumo_db_mysql.d
 _checkouts
 log
+logs
 doc
+*_plt
+.DS_Store
